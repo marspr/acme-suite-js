@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>ACME Suite for node.js</h1><h2>Intro</h2><p>Let's Encrypt-compatible implementation of the
+Automated Certificate Management Environment (ACME) protocol proposed by:
+<a href="https://tools.ietf.org/html/draft-ietf-acme-acme-01">draft-ietf-acme-acme-01</a></p>
+<h2>Benefits</h2><ul>
+<li>Easy to use CLI and API</li>
+<li>Leaves web server untouched</li>
+<li>Runnable as unprivileged user</li>
+</ul>
+<p>The original Let's Encrypt client and derivations usally try to automatically
+configure Apache or Nginx. However, this leads to either unnecessary downtime
+or rather complex fiddling. Therefore, this should be left to dedicated server
+plugins or scripts.</p>
+<p>ACME Suite may provide such scripts in the future,
+especially for challenges other than http-01, but does not at the moment.
+Check out the Wiki to learn how to easily prepare Nginx for http-01 challenge
+and certificate installation.</p>
+<h2>Features</h2><ul>
+<li>Client API and CLI</li>
+<li>Account creation and information</li>
+<li>Certificate signing</li>
+<li>Domain authorization using http-01 challenge</li>
+<li>Local or remote use</li>
+<li>Does not require root privileges</li>
+</ul>
+<p><strong>Planned</strong></p>
+<ul>
+<li>Server API and CLI</li>
+<li>Account recovery</li>
+<li>Certificate revocation</li>
+<li>Domain authorization using tls-sni-01 or proofOfPossession-01 challenge</li>
+</ul>
+<h2>Components</h2><ul>
+<li>AcmeClient - Automated Certificate Management Environment client API</li>
+<li>AcmeHelper - ACME command line interface helper API</li>
+<li>JWebClient - JSON Web Token HTTPS client API used with ACME client</li>
+<li>acme-client-cli - Command line interface using ACME client API</li>
+</ul>
+<h2>Requirements</h2><p>Requires working <code>openssl</code> command to generate account or certificate key as
+well as the certificate signing request (CSR). OpenSSL must be properly
+configured. The repository contains a small configuration file for OpenSSL
+if needed. Its path can be set as <code>OPENSSL_CONF</code> and also works on Windows.</p>
+<h2>Setup</h2><p>Make sure <code>openssl</code> is working. Any recent version should be OK.</p>
+<p><code>acme-client-cli</code> will automatically generate a new account key for you.
+You can also generate your own:</p>
+<pre class="prettyprint source"><code>openssl genrsa 4096 > account.key</code></pre><p>Challenge data will be written to the <code>.well-known</code> directory in the
+working directory upon domain authorization. This directory must be
+published on the web server for the http-01 challenge to complete.</p>
+<p>Signed certificates and associated private keys will be saved in the
+working directory. Filenames will correspond to the domain name like this:
+<code>www.example.com.der</code> and <code>www.example.com.key</code>. In rare cases filenames
+may not match domain name in order to avoid forbidden characters.</p>
+<p>Publishing of challenge data and certificate deployment can be automated
+using scripts if desired.</p>
+<p>Remember that Let's Encrypt provides its staging API for testing purposes.
+This should be used to test your setup before going productive.</p>
+<h2>Usage</h2><h2>CLI</h2><p>Register new account</p>
+<pre class="prettyprint source"><code>acme-client -c=reg -e=hostmaster@example.com</code></pre><p>Authorize new domain and write challenge data to server web root</p>
+<pre class="prettyprint source"><code>acme-client -c=add -d=www.example.com -w=/var/www -y</code></pre><p>Authorize new domain and write challenge data to working directory and wait for
+user to confirm transfer of challenge data to server in order to proceed</p>
+<pre class="prettyprint source"><code>acme-client -c=add -d=www.example.com</code></pre><p>Create and submit certificate signing request (validity period 90 days)</p>
+<pre class="prettyprint source"><code>acme-client -c=csr -d=www.example.com -l=US -n=90 -o=&quot;Example Inc.&quot;</code></pre><p>Get profile info</p>
+<pre class="prettyprint source"><code>acme-client -c=info</code></pre><p><strong>Parameters:</strong></p>
+<p>Action to perform</p>
+<pre class="prettyprint source"><code>-c=ACTION - add (authorize domain), csr, info (profile) or reg (register)</code></pre><p>Certificate details</p>
+<pre class="prettyprint source"><code>-d=DOMAIN, -e=EMAIL, -l=COUNTRY, -n=DAYSVALID -o=ORGANIZATION</code></pre><p>Configuration</p>
+<pre class="prettyprint source"><code>-k=FILE - Specifiy account key file name, default is ./account.key
+-r=BIT - RSA key size, default is 4096 (some devices may only support 2048)
+-u=URL - ACME URL, e.g. https://api.example.com
+-w=PATH - Path where .well-known directory shall be created
+-y - Useful if acme client and web server are running on the same machine</code></pre><p>Help</p>
+<pre class="prettyprint source"><code>-h - Display a help with explanation of parameters like this</code></pre><p>Verbose mode</p>
+<pre class="prettyprint source"><code>-v - Use this to get insight about what is sent and received</code></pre><h2>API</h2><p>New instance</p>
+<pre class="prettyprint source"><code>var JWebClient = require('acme-suite').JWebClient;
+var AcmeClient = require('acme-suite').AcmeClient;
+var acme_client = new AcmeClient(
+    &quot;https://acme-v01.api.letsencrypt.org/directory&quot;,
+    new JWebClient()
+);</code></pre><p>Configuration</p>
+<pre class="prettyprint source"><code>acme_client.days_valid = DAYSVALID; // validity period in days
+acme_client.defaultRsaKeySize = BIT; // RSA key size
+acme_client.emailOverride = EMAIL; // email addresss to use
+acme_client.webroot = PATH; // path to server web root
+acme_client.withInteraction = YES; // avoid user interaction</code></pre><p>Get profile info and print ID</p>
+<pre class="prettyprint source"><code>acme_client.getProfile(function (profile) {
+    process.stdout.write(&quot;User ID: &quot; + profile[&quot;id&quot;] + &quot;\n&quot;);
+});</code></pre><p>Create and submit certificate signing request</p>
+<pre class="prettyprint source"><code>acme_client.requestCertificate(domain, organization, country,
+function (success) {
+    process.stdout.write(&quot;Success: &quot; + success);
+});</code></pre><h2>Security considerations</h2><ul>
+<li><code>acme-client</code> should be run as non-priviledged user</li>
+<li>This user must have<ul>
+<li>write permissions for working directory</li>
+<li>write permissions for <code>.well-known</code> directory under web root</li>
+<li>read permissions for existing <code>account.key</code></li>
+<li>execute permissions for <code>openssl</code></li>
+</ul>
+</li>
+<li>RSA key size should not be lower than 2048 bit</li>
+<li>Verbose mode may output sensitive data</li>
+</ul>
+<h2>License</h2><p>This software is free and open source. See LICENSE for details.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-AcmeClient.html">AcmeClient</a></li><li><a href="module-AcmeHelper.html">AcmeHelper</a></li><li><a href="module-JWebClient.html">JWebClient</a></li></ul><h3>Classes</h3><ul><li><a href="module-AcmeClient-AcmeClient.html">AcmeClient</a></li><li><a href="module-AcmeHelper-AcmeHelper.html">AcmeHelper</a></li><li><a href="module-JWebClient-JWebClient.html">JWebClient</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 29 2016 10:21:48 GMT+0100 (Mitteleuropäische Zeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

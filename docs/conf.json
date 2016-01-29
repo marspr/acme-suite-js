@@ -1,0 +1,15 @@
+{
+	"opts": {
+		"destination": "./docs/html",
+		"encoding": "utf8"
+	},
+	"source": {
+		"include": [
+			"./lib/acme-client.js",
+			"./lib/acme-helper.js",
+			"./lib/jweb-client.js",
+			"./index.js",
+			"./README.md"
+		]
+	}
+}

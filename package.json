@@ -1,0 +1,23 @@
+{
+	"name": "acme-suite",
+	"version": "1.0.0",
+	"description": "Let's Encrypt-compatible implementation of ACME protocol for node.js",
+	"keywords": ["acme", "protocol", "letsencrypt", "https", "ssl", "certificates", "csr", "openssl", "local", "remote", "http-01", "tls-sni-01", "proofOfPossession-01", "AcmeClient", "JWebClient", "acme-suite", "acme-client", "acme-client-cli", "acme-server", "acme-server-cli", "api", "cli", "client", "server"],
+	"homepage": "https://github.com/marspr/acme-suite-js",
+	"author": "Martin Springwald <martin_springwald@web.de> (https://www.marspr.eu)",
+	"bugs": {
+		"url": "https://github.com/marspr/acme-suite-js/issues",
+		"email": "martin_springwald@web.de"
+	},
+	"license": "MIT",
+	"main": "index.js",
+	"bin": {
+		"acme-client": "./acme-client-cli.js"
+	},
+	"private": true,
+	"dependencies": {
+		"base64url": "1.0.5",
+		"jwa": "1.1.1",
+		"rsa-pem-to-jwk": "1.1.3"
+	}
+}
