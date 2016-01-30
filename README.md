@@ -22,8 +22,9 @@ plugins or scripts.
 
 ACME Suite may provide such scripts in the future,
 especially for challenges other than http-01, but does not at the moment.
-Check out the Wiki to learn how to easily prepare Nginx for http-01 challenge
-and certificate installation.
+Check out the [Wiki on Github](https://github.com/marspr/acme-suite-js/wiki)
+to learn how to easily prepare Nginx for http-01 challenge and certificate
+installation.
 
 Features
 --------
@@ -137,6 +138,8 @@ Verbose mode
 	
 API
 ---
+
+Documentation of API can be found on Github.
 
 New instance
 
