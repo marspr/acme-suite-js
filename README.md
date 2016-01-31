@@ -1,8 +1,7 @@
 ACME Suite for node.js
 ======================
 
-[![Build Status](https://travis-ci.org/marspr/acme-suite-js.svg?branch=master)]
-(https://travis-ci.org/marspr/acme-suite-js)
+[![Build Status](https://travis-ci.org/marspr/acme-suite-js.svg?branch=master)](https://travis-ci.org/marspr/acme-suite-js)
 
 Intro
 -----
