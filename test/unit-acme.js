@@ -197,7 +197,7 @@ describe('AcmeClient', function () {
 					private_pem : test_key.toString(),
 					public_jwk : {}
 				};
-				var _request = applyHttpsRequest({}, 404);
+				var _request = applyHttpsRequest("{}", 404);
 				unit.pollUntilIssued("https://www.example.com", function (ans) {
 					https.request = _request;
 					assert.equal(ans, false);
