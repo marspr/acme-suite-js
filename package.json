@@ -1,6 +1,6 @@
 {
 	"name": "acme-suite",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Let's Encrypt-compatible implementation of ACME protocol for node.js",
 	"keywords": ["acme", "protocol", "letsencrypt", "https", "ssl", "certificates", "csr", "openssl", "local", "remote", "http-01", "tls-sni-01", "proofOfPossession-01", "AcmeClient", "JWebClient", "acme-suite", "acme-client", "acme-client-cli", "acme-server", "acme-server-cli", "api", "cli", "client", "server"],
 	"homepage": "https://github.com/marspr/acme-suite-js",

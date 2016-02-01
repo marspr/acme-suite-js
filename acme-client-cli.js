@@ -20,7 +20,7 @@ var JWebClient = require('./lib/jweb-client.js');
 /******************************************************************************
  * Version
  *****************************************************************************/
-var version = "1.0"; //{string}
+var version = require('./package.json').version; //{string}
 
 /******************************************************************************
  * Defaults
@@ -226,8 +226,9 @@ function exec(callback) {
 				console.error("Error  : Missing email address");
 				command = "help";
 			} else {
-				acme_client.getProfile(function (profile) {
-					if (typeof profile != "object") {
+				acme_client.getDirectory(function (directory) {
+					if (directory instanceof Object) {
+						acme_client.directory = directory;
 						acme_client.createAccount(email, function (regLink) {
 							if (regLink !== false) {
 								process.stdout.write("Reg-URI: " + regLink + "\n");
@@ -236,15 +237,18 @@ function exec(callback) {
 								console.error("Error  : Registration failed");
 							// callback
 							callback();
+							// dereference
+							callback = null;
 						});
 					} else {
-						console.error("Error  : Profile does already exist");
+						console.error("Error  : Registration failed");
 						// callback
 						callback();
+						// dereference
+						callback = null;
 					}
 					// dereference
-					callback = null;
-					profile = null;
+					directory = null;
 				});
 			}
 		}
